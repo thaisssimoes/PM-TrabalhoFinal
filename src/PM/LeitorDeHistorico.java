@@ -17,25 +17,27 @@ public class LeitorDeHistorico {
 
 
 	    public static void main(String[] args) throws IOException{
+	    	final String caminhoListaDisciplina = "C:/Users/tsuba/Documents/Codigos/Codigos Eclipse/PM-LeitorHistorico/lista de disciplinas.txt";
+	    	final String historicoEscolarCaminho ="C:/Users/tsuba/Documents/Faculdade/historicoEscolarCRAprovados.pdf";
 	    	ArrayList<Integer> indexesComecoEFimDasMaterias = new ArrayList<Integer>(); 
 	    	int indexComeco;
-	    	int indexFim;
+	    	int indexFim;   	
+	    	final File historicoEscolarDocumento = new File(historicoEscolarCaminho);        
+	    	String historicoEscolarExtraido;
+	    	String historicoEscolarRefinado;
 	    	
 	    	
-	    	File historicoEscolarCaminho = new File("C:/Users/tsuba/Documents/Faculdade/historicoEscolarCRAprovados.pdf");        
-	    	String historicoEscolarExtraido= extrairPDF(historicoEscolarCaminho);
 	    	
+	    	historicoEscolarExtraido= extrairPDF(historicoEscolarDocumento);
 	    	indexesComecoEFimDasMaterias = buscadoresDeIndex(historicoEscolarExtraido); 
-	    	
-	    	indexComeco = indexesComecoEFimDasMaterias.get(0);
+	     	indexComeco = indexesComecoEFimDasMaterias.get(0);
 	    	indexFim = indexesComecoEFimDasMaterias.get(1);
-	    	
-	    	
-	    	String historicoEscolarRefinado = refinadorDeConteudoDoHistoricoEscolar(historicoEscolarExtraido,indexComeco, indexFim);
+	    	historicoEscolarRefinado = refinadorDeConteudoDoHistoricoEscolar(historicoEscolarExtraido,indexComeco, indexFim);
 	    	
 	    	
 	    	
 	    	System.out.print(historicoEscolarRefinado);
+	    	Disciplina.importarListaDisciplinas(caminhoListaDisciplina);
 	    
 	    }
 	    
@@ -58,7 +60,7 @@ public class LeitorDeHistorico {
 	    }
 	    
 	    /**
-	     * Este método procura encontrar o início e o fim aproximado do conteúdo de aprovação do histórico escolar.
+	     * Este método procura encontrar o início e o fim aproximado do conteúdo de matérias do histórico escolar.
 	     *  
 	     * @param historicoEscolarExtraido (String): String com o histórico escolar completo, antes do refinamento
 	     * 
@@ -68,10 +70,8 @@ public class LeitorDeHistorico {
 	        
 	    public static ArrayList<Integer> buscadoresDeIndex (String historicoEscolarExtraido) throws IOException {
 	    	ArrayList<Integer> indexesComecoEFimDasMaterias = new ArrayList<Integer>();
-
 	    	int indexComeco = historicoEscolarExtraido.indexOf("Situação Local");
 	    	int indexFim = historicoEscolarExtraido.indexOf("Coeficiente de Rendimento Geral");
-	    	
 	    	
 	    	indexesComecoEFimDasMaterias.add(indexComeco);
 	    	indexesComecoEFimDasMaterias.add(indexFim);
@@ -97,6 +97,7 @@ public class LeitorDeHistorico {
 	    }
 
 	    
+	    	    
 	    
    }
 	
