@@ -69,7 +69,7 @@ public class Disciplina {
 	 * 
 	 * */
 		
-	public static void encontrarStatusDeAprovacao(String historicoRefinado) throws IOException{
+	public static void encontrarStatusDeAprovacao(String historicoRefinado){
         
 		leitorDeHistorico = new Scanner(historicoRefinado);
 		String codigo;
