@@ -38,6 +38,7 @@ public class LeitorDeHistorico {
 	    	
 	    	System.out.print(historicoEscolarRefinado);
 	    	Disciplina.importarListaDisciplinas(caminhoListaDisciplina);
+	    	Disciplina.encontrarStatus(historicoEscolarRefinado);
 	    
 	    }
 	    

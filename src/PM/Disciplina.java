@@ -22,6 +22,8 @@ public class Disciplina {
 	
 	double sizeToRehash = initialSize * loadFactor;
 	
+	static Map<String,String> informacaoesDeDisciplinas = new HashMap<String,String>();
+	
 	/**
 	 * 
 	 * DEVERIA CRIAR O HASH FORA?
@@ -32,7 +34,7 @@ public class Disciplina {
 		String codigoDisciplina;
 		String nomeDisciplina;
 		String disciplinaRetiradaDaLista;
-		Map<String,String> informacaoesDeDisciplinas = new HashMap<String,String>();
+		
 		File listaDisciplina = new File(caminhoLista);
 		String[] arrayDeDeCodigoENome; 
 		
@@ -49,12 +51,11 @@ public class Disciplina {
 		        	System.out.println(disciplinaRetiradaDaLista + "\n \n \n a: " + codigoDisciplina + "\n\n\n b: " + nomeDisciplina);
 		        }
 		        leitorDisciplinas.close();	        	
-		        System.out.println(informacaoesDeDisciplinas);
 		    } 
 		    catch (IOException e) {
 		        e.printStackTrace();
-		    }
-		 }
+		  }
+	}
 	
 	
 	
@@ -68,21 +69,41 @@ public class Disciplina {
 	
 	public static void encontrarStatus(String historicoRefinado) throws IOException{
         
-		Scanner leitorDisciplinas = new Scanner(historicoRefinado);
-		String test =  "This is a sentence";
-		String lastWord = test.substring(test.lastIndexOf(" ")+1);
+		Scanner leitorDeHistorico = new Scanner(historicoRefinado);
+		String codigo;
 		
-		
-		while (leitorDisciplinas.hasNextLine()) {
+		while (leitorDeHistorico.hasNextLine()) {
             
-        	String disciplinaRetiradaDaLista = leitorDisciplinas.next();
-        	
+			String disciplinaRetiradaDaLista = leitorDeHistorico.nextLine();
+			Scanner leitorTeste = new Scanner(disciplinaRetiradaDaLista);
+			codigo = leitorTeste.next();		
+			for (String key : informacaoesDeDisciplinas.keySet()) {
+				if(codigo.equals(key) && !codigo.equals("HTD0058")){
+					String[] testando = disciplinaRetiradaDaLista.split("-");
+					if(codigo.equals("TIN0110")){
+			            informacaoesDeDisciplinas.put(key, new String(testando[2]));		        	
+					}
+					else{
+						informacaoesDeDisciplinas.put(key, new String(testando[1]));
+					}								
+				}
+				else if(codigo.equals(key) && codigo.equals("HTD0058")){
+					disciplinaRetiradaDaLista = leitorDeHistorico.nextLine();
+					disciplinaRetiradaDaLista = leitorDeHistorico.nextLine();
+					String[] testando = disciplinaRetiradaDaLista.split("-");
+					informacaoesDeDisciplinas.put(key, new String(testando[1]));
+					
+				}
+			
+			}
+						
+			
+		}
 
-        	
         }
 
 	}
 
 
 	
-}
+
