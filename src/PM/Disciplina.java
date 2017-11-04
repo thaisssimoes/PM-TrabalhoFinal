@@ -6,49 +6,52 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Classe para reconhecimento de informações referentes às disciplinas no Historico Escolar. 
+ * 
+ * @author grupoPM
+ * 
+ * */
+
 public class Disciplina {
 
 	
 	/**
-	 * ?????????????????????????????????????????????????????????????????????
+	 * Atributos da classe
 	 * 
-	 * */
-	//Tamanho Inicial da Lista
-	int initialSize = 16;
-	              
-	//Valor do Load Factor
-	double loadFactor = 0.75;
+	 * */	
 	
-	
-	double sizeToRehash = initialSize * loadFactor;
-	
-	static Map<String,String> informacaoesDeDisciplinas = new HashMap<String,String>();
+//	private int initialSize = 16; //Tamanho Inicial da Lista
+//	private double loadFactor = 0.75; //Valor do Load Factor	
+//	private double sizeToRehash = initialSize * loadFactor;	
+	private static Map<String,String> informacaoesDeDisciplinas = new HashMap<String,String>();
+	private static Scanner leitorDeCodigo;
+	private static Scanner leitorDeHistorico;
 	
 	/**
 	 * 
-	 * DEVERIA CRIAR O HASH FORA?
+	 * Este método lê e armazena em hashmap uma lista .txt de disciplinas e códigos que será usada posteriormente. 
 	 * 
+	 * @param caminhoLista(String) : endereço da lista na máquina
 	 * 
 	 * */
+	
 	public static void importarListaDisciplinas(String caminhoLista) throws IOException{
 		String codigoDisciplina;
 		String nomeDisciplina;
 		String disciplinaRetiradaDaLista;
 		
 		File listaDisciplina = new File(caminhoLista);
-		String[] arrayDeDeCodigoENome; 
+		String[] arrayDeCodigoENome; 
 		
 		try {
-
 		        Scanner leitorDisciplinas = new Scanner(listaDisciplina);
-		        
 		        while (leitorDisciplinas.hasNextLine()) {		            
 		        	disciplinaRetiradaDaLista = leitorDisciplinas.nextLine();		        	
-		        	arrayDeDeCodigoENome = disciplinaRetiradaDaLista.split(":");		           		        	
-		        	codigoDisciplina = arrayDeDeCodigoENome[0];
-		            nomeDisciplina = arrayDeDeCodigoENome[1];	            		            
+		        	arrayDeCodigoENome = disciplinaRetiradaDaLista.split(":");		           		        	
+		        	codigoDisciplina = arrayDeCodigoENome[0];
+		            nomeDisciplina = arrayDeCodigoENome[1];	            		            
 		            informacaoesDeDisciplinas.put(codigoDisciplina, new String(nomeDisciplina));		        	
-		        	System.out.println(disciplinaRetiradaDaLista + "\n \n \n a: " + codigoDisciplina + "\n\n\n b: " + nomeDisciplina);
 		        }
 		        leitorDisciplinas.close();	        	
 		    } 
@@ -60,49 +63,46 @@ public class Disciplina {
 	
 	
 	/**
+	 * Este método procura encontrar o status de aprovação do aluno em uma disciplina e armazená-lo no hashmap
 	 * 
-	 * 
+	 * @param historicoRefinado (String) : um bloco menor [apenas com as disciplinas] do historico escolar
 	 * 
 	 * */
-	
-	//TODO
-	
-	public static void encontrarStatus(String historicoRefinado) throws IOException{
+		
+	public static void encontrarStatusDeAprovacao(String historicoRefinado) throws IOException{
         
-		Scanner leitorDeHistorico = new Scanner(historicoRefinado);
+		leitorDeHistorico = new Scanner(historicoRefinado);
 		String codigo;
 		
-		while (leitorDeHistorico.hasNextLine()) {
-            
-			String disciplinaRetiradaDaLista = leitorDeHistorico.nextLine();
-			Scanner leitorTeste = new Scanner(disciplinaRetiradaDaLista);
-			codigo = leitorTeste.next();		
-			for (String key : informacaoesDeDisciplinas.keySet()) {
-				if(codigo.equals(key) && !codigo.equals("HTD0058")){
-					String[] testando = disciplinaRetiradaDaLista.split("-");
+		while (leitorDeHistorico.hasNextLine()) {            
+			String linhaAtual = leitorDeHistorico.nextLine();
+			leitorDeCodigo = new Scanner(linhaAtual);
+			codigo = leitorDeCodigo.next();		
+			for (String codigoChave : informacaoesDeDisciplinas.keySet()) {
+				if(codigo.equals(codigoChave) && !codigo.equals("HTD0058")){
+					String[] separadorDeStatus = linhaAtual.split("-");
 					if(codigo.equals("TIN0110")){
-			            informacaoesDeDisciplinas.put(key, new String(testando[2]));		        	
+			            informacaoesDeDisciplinas.put(codigoChave, new String(separadorDeStatus[2]));		        	
 					}
 					else{
-						informacaoesDeDisciplinas.put(key, new String(testando[1]));
+						informacaoesDeDisciplinas.put(codigoChave, new String(separadorDeStatus[1]));
 					}								
 				}
-				else if(codigo.equals(key) && codigo.equals("HTD0058")){
-					disciplinaRetiradaDaLista = leitorDeHistorico.nextLine();
-					disciplinaRetiradaDaLista = leitorDeHistorico.nextLine();
-					String[] testando = disciplinaRetiradaDaLista.split("-");
-					informacaoesDeDisciplinas.put(key, new String(testando[1]));
+				else if(codigo.equals(codigoChave) && codigo.equals("HTD0058")){
+					linhaAtual = leitorDeHistorico.nextLine();
+					linhaAtual = leitorDeHistorico.nextLine();
+					String[] separadorDeStatus = linhaAtual.split("-");
+					informacaoesDeDisciplinas.put(codigoChave, new String(separadorDeStatus[1]));
 					
 				}
 			
 			}
-						
-			
+	
 		}
 
-        }
-
 	}
+
+}
 
 
 	
