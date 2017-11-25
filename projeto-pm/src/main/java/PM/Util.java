@@ -1,27 +1,29 @@
+package PM;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-/**
- * Classe para reconhecimento de informações referentes às disciplinas no
- * Historico Escolar.
- * 
- * @author grupoPM
- * 
- */
+import lombok.Getter;
+import lombok.Setter;
 
-public class Disciplina {
-
+public class Util {
 	/**
 	 * Atributos da classe
 	 * 
 	 */
+	
+	@Getter @Setter	
 	private Map<String, String> informacaoesDeDisciplinas = new HashMap<String, String>();
+	@Getter @Setter	
 	private Scanner leitorDeCodigo;
+	@Getter @Setter	
 	private Scanner leitorDeHistorico;
 
+	
+	
 	/**
 	 * 
 	 * Este método lê e armazena em hashmap uma lista .txt de disciplinas e códigos
@@ -63,7 +65,7 @@ public class Disciplina {
 	 *            escolar
 	 * 
 	 */
-	void encontrarStatusDeAprovacao(String historicoRefinado) {
+	void encontrarSituacao(String historicoRefinado) {
 
 		leitorDeHistorico = new Scanner(historicoRefinado);
 		String codigo;
@@ -93,5 +95,4 @@ public class Disciplina {
 		}
 
 	}
-
 }
